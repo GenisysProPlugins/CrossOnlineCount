@@ -4,6 +4,8 @@ projects:
     path: ""
     icon: icon.jpg
     libs:
+      - src: Falkirks/spoondetector/spoondetector
+        version: ^0.0.0
       - src: jasonwynn10/libpmquery/libpmquery
         version: ^0.0.1
 ...

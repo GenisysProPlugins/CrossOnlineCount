@@ -11,10 +11,12 @@ use slapper\events\SlapperDeletionEvent;
 
 use libpmquery\PMQuery;
 use libpmquery\PmQueryException;
+use spoondetector\SpoonDetector;
 
 class Main extends PluginBase implements Listener {
 
 	public function onEnable() {
+		SpoonDetector::printSpoon($this, "spoon.txt");
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new UpdateTask($this), 5); // server updates query data every 5 ticks
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
