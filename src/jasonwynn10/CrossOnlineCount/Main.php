@@ -7,10 +7,10 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 
 use slapper\events\SlapperCreationEvent;
-use slapper\events\SlapperDeletionEvent;
 
 use libpmquery\PMQuery;
 use libpmquery\PmQueryException;
+
 use spoondetector\SpoonDetector;
 
 class Main extends PluginBase implements Listener {
@@ -46,19 +46,7 @@ class Main extends PluginBase implements Listener {
 			$entity->namedtag->server = new StringTag("server", $lines[0]);
 			$this->update();
 		}else{
-			$this->getLogger()->debug("Regex failed on entity {$entity->getId()}");
-		}
-	}
-
-	/**
-	 * @priority LOW
-	 *
-	 * @param SlapperDeletionEvent $ev
-	 */
-	public function onSlapperDelete(SlapperDeletionEvent $ev) {
-		$entity = $ev->getEntity();
-		if(isset($entity->namedtag->server)) {
-			unset($entity->namedtag->server);
+			$entity->namedtag->offsetUnset("server");
 		}
 	}
 
@@ -103,9 +91,9 @@ class Main extends PluginBase implements Listener {
 	 * @return bool
 	 */
 	public function is_valid_domain_name(string $domain_name) {
-		return (preg_match("/([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*:(\d{1,5})/i", $domain_name) //valid chars check
-		        and preg_match("/.{1,253}/", $domain_name) //overall length check
-		        and preg_match("/[^\.]{1,63}(\.[^\.]{1,63})*/", $domain_name)); //length of each label
+		return (preg_match("/([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*:(\d{1,5})/i", $domain_name) != false) //valid chars check
+		        and (preg_match("/.{1,253}/", $domain_name) != false) //overall length check
+		        and (preg_match("/[^\.]{1,63}(\.[^\.]{1,63})*/", $domain_name) != false); //length of each label
 	}
 
 	/**
@@ -116,6 +104,6 @@ class Main extends PluginBase implements Listener {
 	 * @return bool
 	 */
 	public function isValidIP(string $ip) {
-		return (preg_match("/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5})/", $ip) !== false);
+		return (preg_match("/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d{1,5})/", $ip) != false);
 	}
 }
